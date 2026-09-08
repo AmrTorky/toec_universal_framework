@@ -1,0 +1,24 @@
+{
+  "project": "TOEC Universal Master Fabric Core",
+  "die_target_size_um": [300.0, 300.0],
+  "routing_grid_tracks": "iCE40_UP5K_SG48",
+  "pin_assignments": [
+    {"signal": "sys_clk", "package_pin": 35, "layer": "MET3", "direction": "input"},
+    {"signal": "clk_glitch_line", "package_pin": 38, "layer": "MET3", "direction": "input"},
+    {"signal": "ext_rst_n", "package_pin": 36, "layer": "MET3", "direction": "input"},
+    {"signal": "vdd_core_voltage", "bus_width_bits": 8, "direction": "input"},
+    {"signal": "poly_space_coord", "bus_width_bits": 32, "direction": "input", "macro_zone": "West_Boundary"},
+    {"signal": "matrix_energy_sig", "bus_width_bits": 32, "direction": "input", "macro_zone": "West_Boundary"},
+    {"signal": "split_brain_flag", "package_pin": 11, "direction": "input"},
+    {"signal": "vasp_theta_param", "bus_width_bits": 32, "direction": "input", "macro_zone": "East_Boundary"},
+    {"signal": "noisy_distance_q8", "bus_width_bits": 32, "direction": "input", "macro_zone": "East_Boundary"},
+    {"signal": "out_rail_isolate", "package_pin": 44, "layer": "MET4", "direction": "output", "drive_current_ma": 12},
+    {"signal": "hardware_status", "bus_width_bits": 2, "direction": "output"}
+  ],
+  "placement_constraints": {
+    "cognitive_neural_mesh": {
+      "floorplan_zone": "Center_Die_Matrix_Floor",
+      "coordinate_bounding_box_um": [100.0, 100.0, 200.0, 200.0]
+    }
+  }
+}

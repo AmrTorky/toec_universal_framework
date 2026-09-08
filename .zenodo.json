@@ -1,0 +1,23 @@
+{
+  "title": "TOEC Cognitive Neural Fabric Core: Silicon Synthesis Validation & Quantum Finite-Core Benchmarks",
+  "creators": [
+    {
+      "name": "Torky, Amr",
+      "affiliation": "Independent Unified Field & Quantum Engineering Research",
+      "orcid": "0000-0002-XXXX-XXXX"
+    }
+  ],
+  "description": "Foundational hardware tracking repositories capturing pre-silicon Verilog design matrices, layout vectors, and quantum VQE tracking curves bound to the 511.0027 keV Gaussian resonance invariant.",
+  "access_right": "restricted",
+  "license": "other-open",
+  "keywords": [
+    "Torky Field Cosmology",
+    "Finite Core Regularization Engine",
+    "Tiny Tapeout Silicon",
+    "Cognitive Neural Mesh",
+    "Metastability Hardening"
+  ],
+  "communities": [
+    {"identifier": "open-science-hardware-frameworks"}
+  ]
+}

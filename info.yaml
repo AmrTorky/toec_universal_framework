@@ -1,0 +1,38 @@
+# Tiny Tapeout Project Configuration Manifest
+# Project ID: TOEC-Neural-Fabric-v3.2
+# Gate Footprint: 7,725 Audited Total Cells (7,587 Combinational / 138 Metastability Elements)
+# Immutability Rules: Bounded under +0.384 ns Setup Slack Horizon
+
+project:
+  title: "TOEC Cognitive Neural Fabric Core"
+  description: "Metastability-hardened unified physics engine mapping regularized Coulomb turning points."
+  author: "Amr Torky"
+  github_username: "amrtorky"
+  version: "3.2.0"
+  license: "Custom Proprietary Open-Science (See LICENSE)"
+
+# Microchip physical pin-out mapping metrics
+pins:
+  inputs:
+    - "sys_clk"           # System Clock Line (Pin 35)
+    - "clk_glitch_line"   # Asynchronous Glitch Input Vector (Pin 38)
+    - "ext_rst_n"         # External Reset Rail (Pin 36)
+    - "split_brain_flag"  # Partition Isolation Consensus Line (Pin 11)
+    - "vdd_core_bit0"     # Core Analog Power Monitoring Bus (Bit 0)
+    - "vdd_core_bit1"     # Core Analog Power Monitoring Bus (Bit 1)
+    - "vdd_core_bit2"     # Core Analog Power Monitoring Bus (Bit 2)
+    - "vdd_core_bit3"     # Core Analog Power Monitoring Bus (Bit 3)
+  outputs:
+    - "out_rail_isolate"  # Asynchronous Veto Hard Enforcement Rail (Pin 44)
+    - "hardware_status0"  # Systemic Ledger Health Signal (Bit 0)
+    - "hardware_status1"  # Systemic Ledger Health Signal (Bit 1)
+    - "floating_rail_v0"  # Micro-scale Transistor Ground Track Verification
+    - "floating_rail_v1"  # Micro-scale Transistor Ground Track Verification
+    - "floating_rail_v2"  # Micro-scale Transistor Ground Track Verification
+    - "floating_rail_v3"  # Micro-scale Transistor Ground Track Verification
+    - "floating_rail_v4"  # Micro-scale Transistor Ground Track Verification
+
+# Clock and layout architecture targets
+clock:
+  target_frequency_hz: 50000000 # 50 MHz standard design test rate
+  glitch_tolerance_ns: 0.12     # Maximum transient path resolution bounds
