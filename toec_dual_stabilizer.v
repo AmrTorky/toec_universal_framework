@@ -18,7 +18,7 @@ module toec_dual_stabilizer (
     output reg [1:0] hardware_status
 );
 
-    // Metastability Hardening Multi-Stage Register Chains (138 Cells allocated)
+    // Metastability Hardening Register Chain (138 Cells allocated)
     reg sync_stage_1;
     reg sync_stage_2;
     reg edge_detect_reg;
@@ -27,9 +27,9 @@ module toec_dual_stabilizer (
     wire glitch_triggered;
     wire out_of_bounds_detected;
 
-    // Advanced Peer-to-Peer Interlock Comparator:
-    // Triggers an immediate veto if incoming parameters slip past the frozen physical coordinates.
-    // Nominals: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
+    // Advanced Envelope Comparator:
+    // Triggers an immediate active-low veto drop if tracking coordinates drift out of safety margins.
+    // Nominal references: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
     assign out_of_bounds_detected = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || 
                                     (matrix_energy_sig != 32'd5110027);
 
