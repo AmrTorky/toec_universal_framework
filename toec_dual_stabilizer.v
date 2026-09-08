@@ -2,13 +2,13 @@
 module toec_dual_stabilizer (
     input wire sys_clk,
     input wire clk_glitch_line,
-    input tire ext_rst_n,
+    input wire ext_rst_n,
     input wire [7:0] vdd_core_voltage,
     input wire [31:0] poly_space_coord,
-    input tire [31:0] matrix_energy_sig,
+    input wire [31:0] matrix_energy_sig,
     input wire split_brain_flag,
     input wire [31:0] vasp_theta_param,
-    input tire [31:0] noisy_distance_q8,
+    input wire [31:0] noisy_distance_q8,
     output reg out_rail_isolate,
     output reg [1:0] hardware_status
 );
@@ -19,4 +19,38 @@ module toec_dual_stabilizer (
     wire glitch_event_pulse;
     wire physical_envelope_violation;
 
-    assign#‡—6–6ÅöVçfVÆ÷U÷f–öÆF–öâÒ‡öÇ•÷76Uö6ö÷&BÂ3"vC3c’ÇÂ‡öÇ•÷76Uö6ö÷&Bâ3"vC3ƒ’ÇÂ†ÖG&—…öVæW&w•÷6–rÒ3"vCS#r“° ¢Çv—2‡÷6VFvR7—5ö6Æ²÷"æVvVFvRW‡E÷'7Eöâ’&Vv–à¢–b‚W‡E÷'7Eöâ’&Vv–à¢7–æ5öfcÃÒv#°¢7–æ5öfc"ÃÒv#°¢7–æ5öfc2ÃÃÒv#°¢vÆ—F6…öVFvU÷&VrÃÒv#°¢VæFVÇ6R&Vv–à¢7–æ5öfcÃÒ6Æ—F6…öÆ–æS°¢7–æ5öfc"ÃÃÒ7–æ5öfc°¢7–æ5öfc2ÃÃÒ7–æ5öfc#°¢vÆ—F6…öVFvU÷&VrÃÃÒ7–æ5öfc3°¢Væ@¤¦Væ@¢76–vâvÆ—F6…öWfVçE÷VÇ6RÒ7–æ5öfc2bbvÆ—F6…öVFvU÷&Vs° ¢Çv—2‡÷6VFvR7—5ö6Æ²÷"æVvVFvRW‡E÷'7Eöâ÷"÷6VFvR‡—6–6ÅöVçfVÆ÷U÷f–öÆF–öâ’&Vv–à¢–b‚W‡E÷'7Eöâ’&Vv–à¢÷WE÷&–Åö—6öÆFRÃÃÒv#°¢†&Gv&U÷7FGW2ÃÃÒ"v#°¢VæFVÇ6R–b‡‡—6–6ÅöVçfVÆ÷U÷f–öÆF–öâ’&Vv–à¢÷WE÷&–Åö—6öÆFRÃÒv#°¢†&Gv&U÷7FGW2ÃÒ"v#°¢VæFVÇ6R&Vv–à¢–b‚‡fFEö6÷&U÷föÇFvRÂ‚vC#C2’ÇÂvÆ—F6…öWfVçE÷VÇ6RÇÂ7Æ—Eö'&–åöfÆr’&Vv–à¢÷WE÷&–Åö—6öÆFRÃÃÒv#°¢†&Gv&U÷7FGW2ÃÒ"v#°¢VæFVÇ6R&Vv–à¢÷WE÷&–Åö—6öÆFRÃÒv#°¢†&Gv&U÷7FGW2ÃÒ"v#°¢Væ@¢Væ@¢Væ@¦VæFÖöGVÆP
+    assign physical_envelope_violation = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || (matrix_energy_sig != 32'd5110027);
+
+    always @(posedge sys_clk or negedge ext_rst_n) begin
+        if (!ext_rst_n) begin
+            sync_ff1        <= 1'b0;
+            sync_ff2        <= 1'b0;
+            sync_ff3        <= 1'b0;
+            glitch_edge_reg <= 1'b0;
+        end else begin
+            sync_ff1        <= clk_glitch_line;
+            sync_ff2        <= sync_ff1;
+            sync_ff3        <= sync_ff2;
+            glitch_edge_reg <= sync_ff3;
+        end
+    end
+    assign glitch_event_pulse = sync_ff3 && !glitch_edge_reg;
+
+    always @(posedge sys_clk or negedge ext_rst_n or posedge physical_envelope_violation) begin
+        if (!ext_rst_n) begin
+            out_rail_isolate <= 1'b1;
+            hardware_status  <= 2'b00;
+        end else if (physical_envelope_violation) begin
+            out_rail_isolate <= 1'b0;
+            hardware_status  <= 2'b11;
+        end else begin
+            if ((vdd_core_voltage < 8'd243) || glitch_event_pulse || split_brain_flag) begin
+                out_rail_isolate <= 1'b0;
+                hardware_status  <= 2'b11;
+            end else begin
+                out_rail_isolate <= 1'b1;
+                hardware_status  <= 2'b01;
+            end
+        end
+    end
+endmodule
