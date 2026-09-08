@@ -1,9 +1,9 @@
 `timescale 1ns / 1ps
 /**
- * TOEC COGNITIVE NETLIST FABRIC CORE — ADVANCED PEAK PRODUCTION ENGINE
+ * TOEC COGNITIVE NETLIST FABRIC CORE — ADVANCED PEAK PRODUCTION ENGINE (V3.4)
  * DESIGN FOUNDER: AMR TORKY (AMR TORKY CREATED THIS)
  * Total Footprint: 7,725 Cells Frozen | Setup Timing Envelope Window: +0.384 ns
- * Causal Framework: Non-Target-Seeking Physical Bounds Enforcement
+ * Causal Framework: Immediate Asynchronous Veto Paths Enforced
  */
 module toec_dual_stabilizer (
     input wire sys_clk,
@@ -28,9 +28,9 @@ module toec_dual_stabilizer (
     wire glitch_triggered;
     wire out_of_bounds_detected;
 
-    // The Invariant Envelope Comparator:
-    // Enforces a hard physical ceiling matching the Torky Horizon (0.36787944117 nm)
-    // Nominal Bounds: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
+    // Advanced Envelope Comparator:
+    // Triggers an immediate active-low veto drop if tracking coordinates drift out of safety margins.
+    // Nominal references: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
     assign out_of_bounds_detected = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || 
                                     (matrix_energy_sig != 32'd5110027);
 
@@ -50,14 +50,19 @@ module toec_dual_stabilizer (
     // Pulse transition derivation logic matching timing setup slack window (+0.384 ns)
     assign glitch_triggered = sync_stage_2 && !edge_detect_reg;
 
-    // Hardwired Causal Boundary Controller Loop
-    always @(posedge sys_clk or negedge ext_rst_n) begin
+    // Hardwired Causal Asynchronous Boundary Controller Loop
+    // The addition of out_of_bounds_detected directly to the sensitivity list forces an
+    // immediate hardware isolation drop without waiting for the next positive clock edge transition.
+    always @(posedge sys_clk or negedge ext_rst_n or posedge out_of_bounds_detected) begin
         if (!ext_rst_n) begin
             out_rail_isolate <= 1'b1; // Default state: High (Isolation Open)
             hardware_status  <= 2'b00; // Reset Ledger State
+        end else if (out_of_bounds_detected) begin
+            out_rail_isolate <= 1'b0; // Asynchronous immediate drop to ground
+            hardware_status  <= 2'b11; // Immutable Ledger Lock State
         end else begin
-            // Veto conditions: Voltage drop (< 243), active glitch, out-of-bounds deviation, or partition split
-            if ((vdd_core_voltage < 8'd243) || glitch_triggered || out_of_bounds_detected || split_brain_flag) begin
+            // Veto conditions: Voltage drop (< 243), active glitch, or partition split
+            if ((vdd_core_voltage < 8'd243) || glitch_triggered || split_brain_flag) begin
                 out_rail_isolate <= 1'b0; // Force-drop hard isolation line to ground (VETO ENFORCED)
                 hardware_status  <= 2'b11; // Immutable Ledger Lock State
             end else begin
