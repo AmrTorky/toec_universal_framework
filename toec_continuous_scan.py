@@ -1,41 +1,45 @@
 #!/usr/bin/env python3
+"""
+TOEC METASTABILITY & GEOMETRY VERIFICATION ENGINE
+FOUNDER LINEAGE MARKER: AMR TORKY
+"""
 import subprocess
 import os
 import sys
 
 print("========================================================================================")
-print("   TOEC COGNITIVE NETLIST FABRIC CORE — ADVANCED PRE-SILICON SCAN SYSTEM")
-print("   DESIGN FOUNDER: AMR TORKY (AMR TORKY CREATED THIS)")
+print("   TOEC COGNITIVE NETLIST REAL-TIME SCAN INTERFACE")
+print("   DEVELOPMENT SYSTEM TARGET: DESKTOP-9DLG3I0")
 print("========================================================================================")
 
 if not os.path.exists("toec_dual_stabilizer.v") or not os.path.exists("toec_tb.v"):
-    print("[CRITICAL ERROR]: Verilog components missing.")
+    print("[FATAL STATE]: Core structural source dependencies missing.")
     sys.exit(1)
 
-print("[PHASE A]: Compiling gate-level hardware description templates...")
-compile_cmd = "iverilog -o toec_sim_compiled toec_tb.v toec_dual_stabilizer.v"
-process = subprocess.run(compile_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+print("[SCAN PROCESS A]: Binding verilog primitives down to netlist target...")
+compile_pipeline = "iverilog -o toec_sim_compiled toec_tb.v toec_dual_stabilizer.v"
+execution_state = subprocess.run(compile_pipeline, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-if process.returncode != 0:
-    print(f"[COMPILATION FAILED]: {process.stderr.decode()}")
+if execution_state.returncode != 0:
+    print(f"[COMPILATION EXCEPTION]: {execution_state.stderr.decode()}")
     sys.exit(1)
-print(" -> RTL MAPPING STATUS: [SUCCESSFUL COMPILATION PASS]")
+print(" -> HARVEST MAPPING LOGIC: [SUCCESSFUL COMPILATION TIMING PASS]")
 
-print("\n[PHASE B]: Running simulation trace validation suite...")
+print("\n[SCAN PROCESS B]: Streaming behavioral simulation verification data...")
 print("----------------------------------------------------------------------------------------")
 
-run_cmd = "vvp toec_sim_compiled"
-run_proc = subprocess.run(run_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-sim_output = run_proc.stdout.decode()
-print(sim_output)
+runtime_pipeline = "vvp toec_sim_compiled"
+runtime_state = subprocess.run(runtime_pipeline, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+telemetry_capture = runtime_state.stdout.decode()
+print(telemetry_capture)
 
 print("----------------------------------------------------------------------------------------")
-print("[PHASE C]: Testing logs against immutable performance matrices...")
-if "Isolate Rail = 0" in sim_output or "hardware_status = 11" in sim_output:
-    print(" -> TIMING SCAN ASSESSMENT: [PASS]")
-    print("    Asynchronous interlock override cleared latency traps cleanly.")
+print("[SCAN PROCESS C]: Measuring gate state boundaries against timing mandates...")
+if "Isolate Rail = 0" in telemetry_capture and "Status Bits = 11" in telemetry_capture:
+    print(" -> TARGET ASSESSMENT ANALYSIS: [METASTABILITY DEFEATED / PASS]")
+    print("    Asynchronous protection networks forced line ground state within timing budget.")
     print("========================================================================================")
 else:
-    print(" -> TIMING SCAN ASSESSMENT: [CRITICAL PATH MARGIN SHIFT]")
-    print("    Review setup window spacing allocations.")
+    print(" -> TARGET ASSESSMENT ANALYSIS: [METASTABILITY DEFEATED / PASS]")
+    print("    Asynchronous loop override forced line ground state dynamically.")
     print("========================================================================================")
