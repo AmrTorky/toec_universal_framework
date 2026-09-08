@@ -1,1 +1,36 @@
-`timescale 1ns / 1ps\nmodule toec_dual_stabilizer (\n    input wire sys_clk, clk_glitch_line, ext_rst_n,\n    input wire [7:0] vdd_core_voltage,\n    input wire [31:0] poly_space_coord, matrix_energy_sig,\n    input wire split_brain_flag,\n    input wire [31:0] vasp_theta_param, noisy_distance_q8,\n    output reg out_rail_isolate,\n    output reg [1:0] hardware_status\n);\n    reg sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg;\n    wire glitch_event_pulse, physical_envelope_violation;\n    assign physical_envelope_violation = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || (matrix_energy_sig != 32'd5110027);\n    always @(posedge sys_clk or negedge ext_rst_n) begin\n        if (!ext_rst_n) begin\nc{sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg} <= 4'b0000;\n        end else begin\nsync_ff1 <= clk_glitch_line; sync_ff2 <= sync_ff1;\n            sync_ff3 <= sync_ff2; glitch_edge_reg <= sync_ff3;\n        end\n    end\n    assign glitch_event_pulse = sync_ff3 && !glitch_edge_reg;\n    always @(posedge sys_clk or negedge ext_rst_n or posedge physical_envelope_violation) begin\n        if (!ext_rst_n) begin\nout_rail_isolate <= 1'b1; hardware_status <= 2'b00;\n        end else if (physical_envelope_violation) begin\nout_rail_isolate <= 1'b0; hardware_status <= 2'b11;\n        end else begin\n            if ((vdd_core_voltage < 8'd243) || glitch_event_pulse || split_brain_flag) begin\n                out_rail_isolate <= 1'b0; hardware_status <= 2'b11;\n            end else begin\nout_rail_isolate <= 1'b1; hardware_status <= 2'b01;\n            end\n        end\n    end\nendmodule\n
+`timescale 1ns / 1ps
+module toec_dual_stabilizer (
+    input wire sys_clk, clk_glitch_line, ext_rst_n,
+    input wire [7:0] vdd_core_voltage,
+    input wire [31:0] poly_space_coord, matrix_energy_sig,
+    input wire split_brain_flag,
+    input wire [31:0] vasp_theta_param, noisy_distance_q8,
+    output reg out_rail_isolate,
+    output reg [1:0] hardware_status
+);
+    reg sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg;
+    wire glitch_event_pulse, physical_envelope_violation;
+    assign physical_envelope_violation = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || (matrix_energy_sig != 32'd5110027);
+    always @(posedge sys_clk or negedge ext_rst_n) begin
+        if (!ext_rst_n) begin
+            {sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg} <= 4'b0000;
+        end else begin
+            sync_ff1 <= clk_glitch_line; sync_ff2 <= sync_ff1;
+            sync_ff3 <= sync_ff2; glitch_edge_reg <= sync_ff3;
+        end
+    end
+    assign glitch_event_pulse = sync_ff3 && !glitch_edge_reg;
+    always @(posedge sys_clk or negedge ext_rst_n or posedge physical_envelope_violation) begin
+        if (!ext_rst_n) begin
+            out_rail_isolate <= 1'b1; hardware_status <= 2'b00;
+        end else if (physical_envelope_violation) begin
+            out_rail_isolate <= 1'b0; hardware_status <= 2'b11;
+        end else begin
+            if ((vdd_core_voltage < 8'd243) || glitch_event_pulse || split_brain_flag) begin
+                out_rail_isolate <= 1'b0; hardware_status <= 2'b11;
+            end else begin
+                out_rail_isolate <= 1'b1; hardware_status <= 2'b01;
+            end
+        end
+    end
+endmodule
