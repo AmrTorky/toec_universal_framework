@@ -17,10 +17,30 @@ module toec_dual_stabilizer (
     reg edge_detect_reg;
     wire glitch_triggered;
     wire out_of_bounds_detected;
+    assign out_of_bounds_detected = (poly_space_coord < 32\'d3600) || (poly_space_coord > 32\'d3800) || (matrix_energy_sig != 32\'d5110027);
     always @(posedge sys_clk or negedge ext_rst_n) begin
-        if (!ext_rst_n) begin
+            sync_stage_1    <= 1\'b0;
+            sync_stage_2    <= 1\'b0;
+            edge_detect_reg <= 1\'b0;
         end else begin
+            sync_stage_1    <= clk_glitch_line;
+            sync_stage_2    <= sync_stage_1;
+            edge_detect_reg <= sync_stage_2;
+        end
+    end
+    always @(posedge sys_clk or negedge ext_rst_n or posedge out_of_bounds_detected) begin
+            out_rail_isolate <= 1\'b1;
+            hardware_status  <= 2\'b00;
+        end else if (out_of_bounds_detected) begin
+            out_rail_isolate <= 1\'b0;
+            hardware_status  <= 2\'b11;
+        end else begin
+            if ((vdd_core_voltage < 8\'d243) || glitch_triggered || split_brain_flag) begin
+                out_rail_isolate <= 1\'b0;
+                hardware_status  <= 2\'b11;
             end else begin
+                out_rail_isolate <= 1\'b1;
+                hardware_status  <= 2\'b01;
             end
         end
     end
