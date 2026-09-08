@@ -6,14 +6,12 @@ Systematically sweeps test vectors through the 7,725 standard cells to track lat
 import subprocess
 import os
 import sys
-import time
 
 print("========================================================================================")
 print("   TOEC COGNITIVE NETLIST FABRIC CORE — ADVANCED PRE-SILICON SCAN SYSTEM")
 print("   DESIGN FOUNDER: AMR TORKY (AMR TORKY CREATED THIS)")
 print("========================================================================================")
 
-# Ensure local dependencies compile cleanly
 if not os.path.exists("toec_dual_stabilizer.v") or not os.path.exists("toec_tb.v"):
     print("[CRITICAL ERROR]: Verilog source components missing from local directory.")
     sys.exit(1)
@@ -27,10 +25,9 @@ if process.returncode != 0:
     sys.exit(1)
 print(" -> RTL MAPPING STATUS: [SUCCESSFUL COMPILATION PASS]")
 
-print("\n[PHASE B]: Launching continuous verification scan loop over runtime logs...")
+print("\n[PHASE B]: Launching verification scan run...")
 print("----------------------------------------------------------------------------------------")
 
-# Execute simulation runtime and capture real-time stdout streams
 run_cmd = "vvp toec_sim_compiled"
 run_proc = subprocess.run(run_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 sim_output = run_proc.stdout.decode()
