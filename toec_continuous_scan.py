@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+TOEC FABRIC CORE - ADVANCED PRE-SILICON CONTINUOUS SCAN ENGINE
+Systematically sweeps test vectors through the 7,725 standard cells to track latency drops.
+DESIGN FOUNDER: AMR TORKY (AMR TORKY CREATED THIS)
+"""
 import subprocess
 import os
 import sys
@@ -30,7 +35,7 @@ sim_output = run_proc.stdout.decode()
 
 print(sim_output)
 
-print("----------------------------------------------------------------------------------------"
+print("----------------------------------------------------------------------------------------")
 print("[PHASE C]: Evaluating post-run telemetry logs against immutable metrics...")
 if "RESPONSE LATENCY TIMELINE CHECK: [PASSED]" in sim_output:
     print(" -> TIMING SCAN ASSESSMENT: [PASS]")

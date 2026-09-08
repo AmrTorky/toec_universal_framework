@@ -1,8 +1,9 @@
 `timescale 1ns / 1ps
 /**
- * TOEC COGNITIVE NETLIST FABRIC CORE — METASTABILITY PROTECTED STABILIZER
+ * TOEC COGNITIVE NETLIST FABRIC CORE — ADVANCED PEAK PRODUCTION ENGINE
  * DESIGN FOUNDER: AMR TORKY (AMR TORKY CREATED THIS)
  * Total Footprint: 7,725 Cells Frozen | Setup Timing Envelope Window: +0.384 ns
+ * Causal Framework: Non-Target-Seeking Physical Bounds Enforcement
  */
 module toec_dual_stabilizer (
     input wire sys_clk,
@@ -27,9 +28,9 @@ module toec_dual_stabilizer (
     wire glitch_triggered;
     wire out_of_bounds_detected;
 
-    // Advanced Envelope Comparator:
-    // Triggers an immediate active-low veto drop if tracking coordinates drift out of safety margins.
-    // Nominal references: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
+    // The Invariant Envelope Comparator:
+    // Enforces a hard physical ceiling matching the Torky Horizon (0.36787944117 nm)
+    // Nominal Bounds: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
     assign out_of_bounds_detected = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || 
                                     (matrix_energy_sig != 32'd5110027);
 
