@@ -18,3 +18,8 @@ set ::env(DIODE_INSERTION_STRATEGY) 3
 set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) 1
 
 echo "STATUS: config.tcl successfully deployed as master compilation entry."
+
+# Source Clock Tree Synthesis Widened Track Routing Rules
+source $::env(DESIGN_DIR)/cts_routing.cfg
+
+echo "STATUS: cts_routing.cfg successfully appended and integrated into global pipeline entry."
