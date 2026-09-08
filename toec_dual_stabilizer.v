@@ -14,7 +14,9 @@ module toec_dual_stabilizer (
 );
     reg sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg;
     wire glitch_event_pulse, physical_envelope_violation;
+
     assign physical_envelope_violation = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || (matrix_energy_sig != 32'd5110027);
+
     always @(posedge sys_clk or negedge ext_rst_n) begin
         if (!ext_rst_n) begin
             {sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg} <= 4'b0000;
@@ -26,6 +28,7 @@ module toec_dual_stabilizer (
         end
     end
     assign glitch_event_pulse = sync_ff3 && !glitch_edge_reg;
+
     always @(posedge sys_clk or negedge ext_rst_n or posedge physical_envelope_violation) begin
         if (!ext_rst_n) begin
             out_rail_isolate <= 1'b1;
