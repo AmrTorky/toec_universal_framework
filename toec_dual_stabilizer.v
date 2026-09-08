@@ -34,3 +34,28 @@ module toec_dual_stabilizer (
         end
     end
 endmodule
+    reg sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg;
+    wire glitch_event_pulse, physical_envelope_violation;
+    assign physical_envelope_violation = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || (matrix_energy_sig != 32'd5110027);
+    always @(posedge sys_clk or negedge ext_rst_n) begin
+        if (!ext_rst_n) begin
+            {sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg} <= 4'b0000;
+        end else begin
+            sync_ff1 <= clk_glitch_line; sync_ff2 <= sync_ff1; sync_ff3 <= sync_ff2; glitch_edge_reg <= sync_ff3;
+        end
+    end
+    assign glitch_event_pulse = sync_ff3 && !glitch_edge_reg;
+    always @(posedge sys_clk or negedge ext_rst_n or posedge physical_envelope_violation) begin
+        if (!ext_rst_n) begin
+            out_rail_isolate <= 1'b1; hardware_status <= 2'b00;
+        end else if (physical_envelope_violation) begin
+            out_rail_isolate <= 1'b0; hardware_status <= 2'b11;
+        end else begin
+            if ((vdd_core_voltage < 8'd243) || glitch_event_pulse || split_brain_flag) begin
+                out_rail_isolate <= 1'b0; hardware_status <= 2'b11;
+            end else begin
+                out_rail_isolate <= 1'b1; hardware_status <= 2'b01;
+            end
+        end
+    end
+endmodule
