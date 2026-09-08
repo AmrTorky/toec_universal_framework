@@ -12,21 +12,12 @@ module toec_dual_stabilizer (
     output reg out_rail_isolate,
     output reg [1:0] hardware_status
 );
-    reg sync_ff1;
-    reg sync_ff2;
-    reg sync_ff3;
-    reg glitch_edge_reg;
-    wire glitch_event_pulse;
-    wire physical_envelope_violation;
-
+    reg sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg;
+    wire glitch_event_pulse, physical_envelope_violation;
     assign physical_envelope_violation = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || (matrix_energy_sig != 32'd5110027);
-
     always @(posedge sys_clk or negedge ext_rst_n) begin
         if (!ext_rst_n) begin
-            sync_ff1        <= 1'b0;
-            sync_ff2        <= 1'b0;
-            sync_ff3        <= 1'b0;
-            glitch_edge_reg <= 1'b0;
+            {sync_ff1, sync_ff2, sync_ff3, glitch_edge_reg} <= 4'b0000;
         end else begin
             sync_ff1        <= clk_glitch_line;
             sync_ff2        <= sync_ff1;
@@ -35,7 +26,6 @@ module toec_dual_stabilizer (
         end
     end
     assign glitch_event_pulse = sync_ff3 && !glitch_edge_reg;
-
     always @(posedge sys_clk or negedge ext_rst_n or posedge physical_envelope_violation) begin
         if (!ext_rst_n) begin
             out_rail_isolate <= 1'b1;
