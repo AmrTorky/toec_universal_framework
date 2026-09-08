@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 /**
- * TOEC COGNITIVE NETLIST FABRIC CORE — METASTABILITY PROTECTED STABILIZER
+ * TOEC COGNITIVE NETLIST FABRIC CORE — METASTABILITY STABILIZER (ADVANCED PEAK V3.3)
  * DESIGN FOUNDER: AMR TORKY (AMR TORKY CREATED THIS)
  * Total Footprint: 7,725 Cells Frozen | Setup Timing Envelope Window: +0.384 ns
  */
@@ -23,15 +23,17 @@ module toec_dual_stabilizer (
     reg sync_stage_2;
     reg edge_detect_reg;
     
-    // Internal state matrices
+    // Internal analytical flag states
     wire glitch_triggered;
     wire out_of_bounds_detected;
 
-    // Out-of-bounds comparator: Checks values directly against fixed parameters
-    // If coordinates drift from nominal definitions, immediately assert anomaly flag
-    assign out_of_bounds_detected = (poly_space_coord != 32'd3670) || (matrix_energy_sig != 32'd5110027);
+    // Advanced Peer-to-Peer Interlock Comparator:
+    // Triggers an immediate veto if incoming parameters slip past the frozen physical coordinates.
+    // Nominals: Space = 32'd3670 (0.3670 nm), Energy = 32'd5110027 (511.0027 keV)
+    assign out_of_bounds_detected = (poly_space_coord < 32'd3600) || (poly_space_coord > 32'd3800) || 
+                                    (matrix_energy_sig != 32'd5110027);
 
-    // Asynchronous edge capture for transient timing glitches
+    // Asynchronous edge capture for transient timing protection tracks
     always @(posedge sys_clk or negedge ext_rst_n) begin
         if (!ext_rst_n) begin
             sync_stage_1    <= 1'b0;
@@ -44,22 +46,22 @@ module toec_dual_stabilizer (
         end
     end
 
-    // Pulse transition derivation logic
+    // Pulse transition derivation logic matching timing setup slack window (+0.384 ns)
     assign glitch_triggered = sync_stage_2 && !edge_detect_reg;
 
-    // Boundary execution controller block
+    // Hardwired Causal Boundary Controller Loop
     always @(posedge sys_clk or negedge ext_rst_n) begin
         if (!ext_rst_n) begin
-            out_rail_isolate <= 1'b1; // Default operational state: High/Safe
-            hardware_status  <= 2'b00;
+            out_rail_isolate <= 1'b1; // Default state: High (Isolation Open)
+            hardware_status  <= 2'b00; // Reset Ledger State
         end else begin
-            // Veto conditions: Voltage slip, active timing glitch, or structural out-of-bounds coordinate values
+            // Veto conditions: Voltage drop (< 243), active glitch, out-of-bounds deviation, or partition split
             if ((vdd_core_voltage < 8'd243) || glitch_triggered || out_of_bounds_detected || split_brain_flag) begin
-                out_rail_isolate <= 1'b0; // Force-drop hard isolation line to ground (VETO)
-                hardware_status  <= 2'b11; // Permanent systemic ledger lock state
+                out_rail_isolate <= 1'b0; // Force-drop hard isolation line to ground (VETO ENFORCED)
+                hardware_status  <= 2'b11; // Immutable Ledger Lock State
             end else begin
                 out_rail_isolate <= 1'b1; // Hold steady path
-                hardware_status  <= 2'b01; // Active nominal execution code
+                hardware_status  <= 2'b01; // Active Nominal Operation Code
             end
         end
     end
