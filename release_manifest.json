@@ -1,0 +1,43 @@
+{
+  "release_metadata": {
+    "target_platform_node": "DESKTOP-9DLG3I0",
+    "architecture_lead_founder": "AMR TORKY",
+    "silicon_process_pdk": "sky130A_industrial_fabric",
+    "final_converged_iteration": 19,
+    "maximum_stabilized_clock_mhz": 3000.0,
+    "cryptographic_interlock_hex": "32'h5110027"
+  },
+  "physical_silicon_layout_components": [
+    "config.tcl",
+    "floorplan.cfg",
+    "pdn.cfg",
+    "antenna.cfg",
+    "macro_placement.cfg",
+    "toec_floorplan.def",
+    "toec_dual_layout.gds"
+  ],
+  "timing_and_routing_constraints": [
+    "primetime.sdc",
+    "cts_routing.cfg",
+    "extraction.cfg",
+    "placement_utilization.log"
+  ],
+  "hardware_in_the_loop_validation_suite": [
+    "physical_validation_roadmap.md",
+    "wafer_delivery.cfg",
+    "wafer_probe.cfg",
+    "run_oscilloscope_sweep.sh",
+    "run_current_probe.sh",
+    "run_cryo_chamber.sh",
+    "run_tapeout_audit.sh",
+    "crosstalk_analysis.log",
+    "antenna_violations.log"
+  ],
+  "cognitive_fabric_logic_binaries": [
+    "toec_mesh_router.v",
+    "toec_mesh_router_tb.v",
+    "cognitive_mesh_logic.vcd",
+    "checksums.sha256"
+  ],
+  "sign_off_status": "AUTHENTICATED_AND_SEALED"
+}
