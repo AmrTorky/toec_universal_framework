@@ -1,0 +1,223 @@
+$date
+	Wed Sep  9 08:24:38 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module toec_cluster_matrix_tb $end
+$var wire 1 ! inter_cluster_valid $end
+$var wire 32 " cluster_egress [31:0] $end
+$var wire 3 # bridge_state [2:0] $end
+$var reg 1 $ clk $end
+$var reg 32 % cluster_ingress [31:0] $end
+$var reg 1 & cluster_veto $end
+$var reg 1 ' rst_n $end
+$var reg 2 ( source_core_id [1:0] $end
+$var reg 2 ) target_core_id [1:0] $end
+$scope module uut $end
+$var wire 1 $ clk $end
+$var wire 32 * cluster_ingress [31:0] $end
+$var wire 1 & cluster_veto $end
+$var wire 1 ' rst_n $end
+$var wire 2 + source_core_id [1:0] $end
+$var wire 2 , target_core_id [1:0] $end
+$var parameter 3 - BR_STATE_BRIDGE $end
+$var parameter 3 . BR_STATE_DECODE $end
+$var parameter 3 / BR_STATE_IDLE $end
+$var parameter 3 0 BR_STATE_VETO $end
+$var parameter 32 1 CRYPTO_INTERLOCK $end
+$var reg 32 2 bridge_hold_reg [31:0] $end
+$var reg 3 3 bridge_state [2:0] $end
+$var reg 32 4 cluster_egress [31:0] $end
+$var reg 1 ! inter_cluster_valid $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b101000100010000000000100111 1
+b100 0
+b0 /
+b1 .
+b10 -
+$end
+#0
+$dumpvars
+b0 4
+b0 3
+b0 2
+b1 ,
+b0 +
+b0 *
+b1 )
+b0 (
+0'
+0&
+b0 %
+0$
+b0 #
+b0 "
+0!
+$end
+#156
+1$
+#312
+0$
+#468
+1$
+#624
+0$
+#780
+1$
+#936
+0$
+#1092
+1$
+#1248
+0$
+#1404
+1$
+#1560
+0$
+#1716
+1$
+#1872
+0$
+#2000
+1'
+#2028
+1$
+#2184
+0$
+#2340
+1$
+#2496
+0$
+#2652
+1$
+#2808
+0$
+#2964
+1$
+#3000
+b11011110101011011011111011101111 %
+b11011110101011011011111011101111 *
+#3120
+0$
+#3276
+b1 #
+b1 3
+b11011110101011011011111011101111 2
+1$
+#3432
+0$
+#3588
+b10 #
+b10 3
+1$
+#3744
+0$
+#3900
+b0 #
+b0 3
+1!
+b11011011101111001011111011001000 "
+b11011011101111001011111011001000 4
+1$
+#4056
+0$
+#4212
+b1 #
+b1 3
+0!
+1$
+#4368
+0$
+#4524
+b10 #
+b10 3
+1$
+#4680
+0$
+#4836
+b0 #
+b0 3
+1!
+1$
+#4992
+0$
+#5000
+1&
+#5148
+b100 #
+b100 3
+0!
+b0 "
+b0 4
+1$
+#5304
+0$
+#5460
+1$
+#5616
+0$
+#5772
+1$
+#5928
+0$
+#6084
+1$
+#6240
+0$
+#6396
+1$
+#6552
+0$
+#6708
+1$
+#6864
+0$
+#7020
+1$
+#7176
+0$
+#7332
+1$
+#7488
+0$
+#7644
+1$
+#7800
+0$
+#7956
+1$
+#8112
+0$
+#8268
+1$
+#8424
+0$
+#8580
+1$
+#8736
+0$
+#8892
+1$
+#9048
+0$
+#9204
+1$
+#9360
+0$
+#9516
+1$
+#9672
+0$
+#9828
+1$
+#9984
+0$
+#10000
