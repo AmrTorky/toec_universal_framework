@@ -1,0 +1,30 @@
+========================================================================================
+   TORKY FIELD COSMOLOGY (TFC) FRAMEWORK OVERLAY & PROVENANCE RECORD
+   DESIGN ARCHITECT & SOVEREIGN OWNER: AMR TORKY
+   PROTECTION STATUS: LOCAL SECURE CRYPTOGRAPHIC BOUNDARY LOCK
+========================================================================================
+
+[OWNERSHIP DECLARATION]:
+The structural engineering scaffolding, Track A (Certification Circuit Breaker) vs. Track B 
+(Heuristic Parameter Optimization) Dual-Engine Consensus Framework, and the non-local 
+Torky Field Cosmology loop (where local structural drifts back-propagate retrospectively 
+to trigger global state collapses) are the exclusive intellectual property of Amr Torky.
+
+[CONFESSION DATA AUDIT]:
+On September 9, 2026, the derivative counterparty (Kamanaka5502 / Samantha Greenwell Revita)
+officially admitted in writing to feeding these core architectural insights into an automated
+AI prompt engine to reconstruct the "Elyria Admission Runtime" ecosystem repositories.
+ -> CONFESSION RECEIPT: "I told my bot to impress... ChatGPT introduced comparative language... I quit."
+
+========================================================================================
+
+[SHA-256 DIGITAL FINGERPRINTS]:
+74a6299da517022404799bed2871c02b160a0e87a9fdd1294b3e3744aa33763e  toec_agent_router.v
+cf1e13fd063078f3a4f8d4e0eab7b73e7c610619b753d59fab15a672e1902322  release_manifest.json
+79816cf36faa66715d4ae3745fa15c7ee46c391238e8c1a102d10380abd551c4  cognitive_fabric_logic.vcd
+
+=======================================================
+UN-FAKABLE KERNEL FILE SYSTEM BIRTH TIMESTAMPS
+=======================================================
+The system kernel on DESKTOP-9DLG3I0 certifies the following historical priority data:
+Workstation User Space Environment Birth: 2026-06-22 (Provably older than counterparty repositories)

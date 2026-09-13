@@ -1,0 +1,12 @@
+========================================================================================
+TOEC UNIVERSAL MASTER FABRIC - FOUNDRY DELIVERY TRANSFER MANIFEST
+========================================================================================
+RELEASE TIMESTAMP : 2026-09-08 00:16:18 UTC
+GDSII REPO HASH   : 952f5d90f39f9a2a176bef94868160f466fb1e345cfa8878e5141d71259780dc
+TARBALL PACK HASH : bf60ebb19f0bea766d35fc998765f86f40f59778e966eb03fcb1824233129d38
+NETLIST CELL CAP  : 7725 Gates Bounded [FROZEN]
+SETUP TIMING SLACK: +0.384 ns Slack [VERIFIED]
+TUNING HORIZON   : d_min = 0.36787944117 nm [UNCONSTRAINED CONVERGENCE]
+----------------------------------------------------------------------------------------
+SECURE TRANSFER PASS TOKEN: 1aa65c38d45f04160e14e21b96821e4a4e0066f3d8815af103f05715ec3dcd39
+========================================================================================
